@@ -6,7 +6,7 @@ Generate weekly calendar table with detail times.
 
 Add this line to your application's Gemfile:
 
-    gem 'weekly_calendar'
+    gem 'week_calendar', require: 'weekly_calendar'
 
 And then execute:
 

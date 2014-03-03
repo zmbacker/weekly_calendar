@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'weekly_calendar/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "weekly_calendar"
+  spec.name          = "week_calendar"
   spec.version       = WeeklyCalendar::VERSION
   spec.authors       = ["Lester Zhao"]
   spec.email         = ["zm.backer@gmail.com"]
