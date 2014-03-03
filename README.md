@@ -26,6 +26,11 @@ In erb file:
     <% end %>
 
 
+Options list:
+
+*  hidden_past: Default is false. Hidden the events of the calendar which are past.
+*  class: table css classes.
+
 
 
 

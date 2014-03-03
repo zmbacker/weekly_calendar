@@ -14,8 +14,9 @@ module WeeklyCalendar
 
     def default_options
       {
-          :class          => "table table-hover table-bordered",
-          :params         => {},
+        :class          => "table table-hover table-bordered",
+        :params         => {},
+        :hidden_past    => false,
       }
     end
 
@@ -42,7 +43,7 @@ module WeeklyCalendar
                   divs = []
                   cell_time = DateTime.civil_from_format( :local ,d.year, d.month, d.day, t.split(":")[0].to_i, t.split(":")[1].to_i, 0 )
                   curr_events = time_events(cell_time, events, options[:time_selector])
-                  if Time.zone.now > cell_time
+                  if Time.zone.now > cell_time && options[:hidden_past]
                     content_tag(:div, '--')
                   else
                     if curr_events.empty? && options[:empty_date]
