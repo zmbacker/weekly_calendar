@@ -17,6 +17,7 @@ module WeeklyCalendar
         :class          => "table table-hover table-bordered",
         :params         => {},
         :hidden_past    => false,
+        :date_format    => :short,
       }
     end
 
@@ -32,7 +33,7 @@ module WeeklyCalendar
       days = [Date.current, Date.current+1, Date.current+2]
       tags = []
       content_tag(:table, :class => options[:class]) do
-        tags << content_tag(:thead, content_tag(:tr, [content_tag(:th, '')].concat(days.collect { |d| content_tag :th, d.to_s(:short) }).join.html_safe))
+        tags << content_tag(:thead, content_tag(:tr, [content_tag(:th, '')].concat(days.collect { |d| content_tag :th, d.to_s(options[:date_format]) }).join.html_safe))
         tags << content_tag(:tbody) do
           times.collect do |t|
             content_tag(:tr) do
@@ -44,7 +45,7 @@ module WeeklyCalendar
                   cell_time = DateTime.civil_from_format( :local ,d.year, d.month, d.day, t.split(":")[0].to_i, t.split(":")[1].to_i, 0 )
                   curr_events = time_events(cell_time, events, options[:time_selector])
                   if Time.zone.now > cell_time && options[:hidden_past]
-                    content_tag(:div, '--')
+                    divs << content_tag(:div, '')
                   else
                     if curr_events.empty? && options[:empty_date]
                       divs << options[:empty_date].call(cell_time)

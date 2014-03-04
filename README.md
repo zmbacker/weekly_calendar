@@ -30,6 +30,7 @@ Options list:
 
 *  hidden_past: Default is false. Hidden the events of the calendar which are past.
 *  class: table css classes.
+*  empty_date: the value must be lambda has one argument that is datetime. e.g. lambda {|tt| tt.to_s }
 
 
 
