@@ -1,6 +1,11 @@
 module WeeklyCalendar
   module ViewHelpers
 
+    # options:
+    #   hiddent_past: with true or false value, when the value is true. display nothing in the past time gride
+    #   class: table style class
+    #   date_format: 
+
     def week_calender(events, options={}, &block)
       raise 'WeeklyCalendar requires a block to be passed in' unless block_given?
  
@@ -18,12 +23,18 @@ module WeeklyCalendar
         :params         => {},
         :hidden_past    => false,
         :date_format    => :short,
+        :time_selector  => "starting_at",
+        :select_type    => :included_by # include
       }
     end
 
-    def time_events(time, events, time_selector)
+    def time_events(time, events, time_selector, options)
       ending = time.at_end_of_hour
-      events.select { |e| time >= e.starting_at && ending <= e.ending_at }
+      if options[:select_type] == :include
+        events.select { |e| time >= e.starting_at && ending <= e.ending_at }
+      elsif options[:select_type] == :included_by
+        events.select { |e| time <= e.starting_at && ending >= e.ending_at }
+      end
     end
 
     def draw_calendar(events, options, block)
@@ -43,7 +54,7 @@ module WeeklyCalendar
                 content_tag(:td) do
                   divs = []
                   cell_time = DateTime.civil_from_format( :local ,d.year, d.month, d.day, t.split(":")[0].to_i, t.split(":")[1].to_i, 0 )
-                  curr_events = time_events(cell_time, events, options[:time_selector])
+                  curr_events = time_events(cell_time, events, options[:time_selector], options)
                   if Time.zone.now > cell_time && options[:hidden_past]
                     divs << content_tag(:div, '')
                   else
